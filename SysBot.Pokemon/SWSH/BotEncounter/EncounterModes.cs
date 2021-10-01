@@ -36,5 +36,10 @@
         /// Bot resets Motostoke Gym encounters
         /// </summary>
         MotostokeGym,
+
+        /// <summary>
+        /// Bot checks the Route 5 Eldegoss static encounter
+        /// </summary>
+        Eldegoss,
     }
 }

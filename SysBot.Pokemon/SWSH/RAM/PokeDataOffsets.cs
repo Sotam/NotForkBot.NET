@@ -40,6 +40,12 @@ namespace SysBot.Pokemon
         public const uint WildPokemonOffset = 0x8FEA3648;
         public const uint RaidPokemonOffset = 0x886A95B8;
         public const uint LegendaryPokemonOffset = 0x886BC348;
+        public const uint LastSpeciesSpawned = 0x800AA58;
+        public const uint LastFormSpawned = 0x800AA5A;
+
+        // Fishing offset - arbitrary offsets, there may be better ones.
+        public const uint FishingOffsetSH = 0x08073330;
+        public const uint FishingOffsetSW = 0x01D62BBD;
 
         // Link Trade Offsets
         public const uint LinkTradePartnerPokemonOffset = 0xAF286078;

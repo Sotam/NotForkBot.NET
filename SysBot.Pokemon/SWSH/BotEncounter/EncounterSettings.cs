@@ -23,7 +23,7 @@ namespace SysBot.Pokemon
         private int _completedWild;
         private int _completedLegend;
 
-        [Category(Counts), Description("Encountered Wild Pokémon")]
+        [Category(Counts), Description("Encountered Wild/Gift Pokémon")]
         public int CompletedEncounters
         {
             get => _completedWild;
@@ -48,7 +48,7 @@ namespace SysBot.Pokemon
             if (!EmitCountsOnStatusCheck)
                 yield break;
             if (CompletedEncounters != 0)
-                yield return $"Wild Encounters: {CompletedEncounters}";
+                yield return $"Wild/Gift Encounters: {CompletedEncounters}";
             if (CompletedLegends != 0)
                 yield return $"Legendary Encounters: {CompletedLegends}";
         }
