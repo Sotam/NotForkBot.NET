@@ -24,6 +24,8 @@ namespace SysBot.Pokemon
             PokeRoutineType.EncBotCamp => new EncounterBotCamp(cfg, Hub),
             PokeRoutineType.EncBotFishing => new EncounterBotFish(cfg, Hub),
             PokeRoutineType.EncBotTeaSmash => new EncounterBotTeaSmash(cfg, Hub),
+            PokeRoutineType.EncBotCopySeed => new EncounterBotCopySeed(cfg, Hub),
+            PokeRoutineType.EncBotRNGMonitor => new EncounterBotRNGMonitor(cfg, Hub),
 
             PokeRoutineType.RemoteControl => new RemoteControlBot(cfg),
             _ => throw new ArgumentException(nameof(cfg.NextRoutineType)),
@@ -48,6 +50,8 @@ namespace SysBot.Pokemon
             PokeRoutineType.EncBotCamp => true,
             PokeRoutineType.EncBotFishing => true,
             PokeRoutineType.EncBotTeaSmash => true,
+            PokeRoutineType.EncBotCopySeed => true,
+            PokeRoutineType.EncBotRNGMonitor => true,
 
             PokeRoutineType.RemoteControl => true,
 

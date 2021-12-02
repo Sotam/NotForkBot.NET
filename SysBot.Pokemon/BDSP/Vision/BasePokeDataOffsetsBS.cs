@@ -24,6 +24,10 @@ namespace SysBot.Pokemon
         public abstract IReadOnlyList<long> ConfigTextSpeedPointer { get; }
         public abstract IReadOnlyList<long> ConfigLanguagePointer { get; }
 
+        // Main RNG state
+        public abstract IReadOnlyList<long> MainRNGPointer { get; }
+        public abstract IReadOnlyList<long> ZoneIDPointer { get; }
+
         // SceneID enums
         public const byte SceneID_Field = 0;
         public const byte SceneID_Room = 1;

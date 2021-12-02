@@ -325,5 +325,30 @@ namespace SysBot.Pokemon
             var data = new[] { (byte)((textSpeedByte[0] & 0xFC) | (int)speed) };
             await Connection.WriteBytesAsync(data, TextSpeedOffset, token).ConfigureAwait(false);
         }
+
+        public async Task<(ulong s0, ulong s1)> GetGlobalRNGState(uint offset, bool log, CancellationToken token)
+        {
+            var data = await SwitchConnection.ReadBytesAsync(offset, 16, token).ConfigureAwait(false);
+            var s0 = BitConverter.ToUInt64(data, 0);
+            var s1 = BitConverter.ToUInt64(data, 8);
+            if (log)
+                Log($"RNG state: {s0:x16}, {s1:x16}");
+            return (s0, s1);
+        }
+
+        public int GetAdvancesPassed(ulong prevs0, ulong prevs1, ulong news0, ulong news1)
+        {
+            if (prevs0 == news0 && prevs1 == news1)
+                return 0;
+
+            var rng = new Xoroshiro128Plus(prevs0, prevs1);
+            for (int i = 0; ; i++)
+            {
+                rng.NextInt(0xffffffff);
+                var (s0, s1) = rng.GetState();
+                if (s0 == news0 && s1 == news1)
+                    return i + 1;
+            }
+        }
     }
 }

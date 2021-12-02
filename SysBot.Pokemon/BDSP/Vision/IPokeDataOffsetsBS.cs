@@ -18,5 +18,7 @@ namespace SysBot.Pokemon
         public IReadOnlyList<long> MyStatusTIDPointer { get; }
         public IReadOnlyList<long> ConfigTextSpeedPointer { get; }
         public IReadOnlyList<long> ConfigLanguagePointer { get; }
+        public IReadOnlyList<long> MainRNGPointer { get; }
+        public IReadOnlyList<long> ZoneIDPointer { get; }
     }
 }

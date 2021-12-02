@@ -234,7 +234,15 @@ namespace SysBot.Pokemon.WinForms
             if (!cfg.IsValid())
                 return false;
 
-            if (Bots.Any(z => z.Connection.Equals(cfg.Connection)))
+            // Monitor Tool bots can be added without conflicts.
+            if (!PokeRoutineTypeExtensions.IsMonitorTool(cfg.NextRoutineType))
+            {
+                if (Bots.Any(z => z.Connection.Equals(cfg.Connection) && !PokeRoutineTypeExtensions.IsMonitorTool(z.NextRoutineType)))
+                    return false;
+            }
+
+            // Disallow duplicate routines.
+            if (Bots.Any(z => z.Connection.Equals(cfg.Connection) && cfg.NextRoutineType == z.NextRoutineType))
                 return false;
 
             PokeRoutineExecutorBase newBot;

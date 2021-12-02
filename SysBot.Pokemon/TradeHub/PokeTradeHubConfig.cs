@@ -62,6 +62,10 @@ namespace SysBot.Pokemon
 
         [Category(Bots)]
         [TypeConverter(typeof(ExpandableObjectConverter))]
+        public EncounterRNGBSSettings EncounterRNGBS { get; set; } = new();
+
+        [Category(Bots)]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
         public TradeAbuseSettings TradeAbuse { get; set; } = new();
 
         // Integration

@@ -75,6 +75,9 @@ namespace SysBot.Pokemon
         public const uint DayCare_Route5_Step_Counter = 0x4511F99C;
         public const uint DayCare_Route5_Egg_Is_Ready = 0x4511F9A8;
 
+        // Main RNG Offset
+        public const uint SWSHMainRNGOffset = 0x4C2AAC18;
+
         public const int BoxFormatSlotSize = 0x158;
         public const int TrainerDataLength = 0x110;
 

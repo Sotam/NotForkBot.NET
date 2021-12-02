@@ -49,6 +49,27 @@
         /// <summary> Triggers encounters until the criteria is satisfied. </summary>
         EncBotTeaSmash = 1005,
 
+        /// <summary> Copies out the current global RNG state in the specified format. </summary>
+        EncBotCopySeed = 1006,
+
+        /// <summary> Prints out the global RNG state and information on advances passed. </summary>
+        EncBotRNGMonitor = 1007,
+
+        /// <summary> Triggers encounters until the criteria is satisfied. </summary>
+        EncBotTIDBS = 2000,
+
+        /// <summary> Continously prints the player character's current zoneID. </summary>
+        EncBotZoneIDBS = 2001,
+
+        /// <summary> Copies out the current global RNG state in the specified format. </summary>
+        EncBotCopySeedBS = 2002,
+
+        /// <summary> Prints out the global RNG state and information on advances passed. </summary>
+        EncBotRNGMonitorBS = 2003,
+
+        /// <summary> Prints out the global RNG state and information on advances passed. </summary>
+        EncBotDexFlipBS = 2004,
+
         /// <summary> Similar to idle, but identifies the bot as available for Remote input (Twitch Plays, etc). </summary>
         RemoteControl = 6_000,
 
@@ -58,5 +79,8 @@
     public static class PokeRoutineTypeExtensions
     {
         public static bool IsTradeBot(this PokeRoutineType type) => type is >=PokeRoutineType.FlexTrade and <= PokeRoutineType.Dump;
+        public static bool IsMonitorTool(this PokeRoutineType type) =>
+            type is PokeRoutineType.EncBotCopySeed or PokeRoutineType.EncBotRNGMonitor
+            or (>= PokeRoutineType.EncBotZoneIDBS and <= PokeRoutineType.EncBotRNGMonitorBS);
     }
 }

@@ -12,6 +12,12 @@ namespace SysBot.Pokemon
                 or PokeRoutineType.Dump
                 => new PokeTradeBotBS(Hub, cfg),
 
+            PokeRoutineType.EncBotTIDBS => new EncounterBotTIDBS(cfg, Hub),
+            PokeRoutineType.EncBotZoneIDBS => new EncounterBotZoneIDBS(cfg, Hub),
+            PokeRoutineType.EncBotCopySeedBS => new EncounterBotCopySeedBS(cfg, Hub),
+            PokeRoutineType.EncBotRNGMonitorBS => new EncounterBotRNGMonitorBS(cfg, Hub),
+            PokeRoutineType.EncBotDexFlipBS => new EncounterBotDexFlipBS(cfg, Hub),
+
             PokeRoutineType.RemoteControl => new RemoteControlBot(cfg),
 
             _ => throw new ArgumentException(nameof(cfg.NextRoutineType)),
@@ -23,6 +29,12 @@ namespace SysBot.Pokemon
                 or PokeRoutineType.LinkTrade
                 or PokeRoutineType.Dump
                 => true,
+
+            PokeRoutineType.EncBotTIDBS => true,
+            PokeRoutineType.EncBotZoneIDBS => true,
+            PokeRoutineType.EncBotCopySeedBS => true,
+            PokeRoutineType.EncBotRNGMonitorBS => true,
+            PokeRoutineType.EncBotDexFlipBS => true,
 
             PokeRoutineType.RemoteControl => true,
 

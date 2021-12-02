@@ -35,6 +35,9 @@ namespace SysBot.Pokemon
         [Category(StopConditions), Description("List of marks to ignore separated by commas. Use the full name, e.g. \"Uncommon Mark, Dawn Mark, Prideful Mark\".")]
         public string UnwantedMarks { get; set; } = "";
 
+        [Category(StopConditions), Description("List of TIDs to look for separated by commas. Use the full 6-digit G8TID, e.g. \"010101, 000666, 987354\".")]
+        public string TargetTIDBS { get; set; } = "";
+
         [Category(StopConditions), Description("Holds Capture button to record a 30 second clip when a matching Pokémon is found by EncounterBot or Fossilbot.")]
         public bool CaptureVideoClip { get; set; }
 
@@ -97,6 +100,12 @@ namespace SysBot.Pokemon
         }
 
         public static void InitializeTargetIVs(PokeTradeHub<PK8> hub, out int[] min, out int[] max)
+        {
+            min = ReadTargetIVs(hub.Config.StopConditions, true);
+            max = ReadTargetIVs(hub.Config.StopConditions, false);
+        }
+
+        public static void InitializeTargetIVs(PokeTradeHub<PB8> hub, out int[] min, out int[] max)
         {
             min = ReadTargetIVs(hub.Config.StopConditions, true);
             max = ReadTargetIVs(hub.Config.StopConditions, false);
@@ -165,6 +174,11 @@ namespace SysBot.Pokemon
             }
             return "";
         }
+
+        public static void ReadTargetTIDBS(StopConditionSettings settings, out IReadOnlyList<string> targetTIDBS) =>
+            targetTIDBS = settings.TargetTIDBS.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToList();
+
+        public virtual bool IsTargetTIDBS(string TID, IReadOnlyList<string> targetTIDBS) => targetTIDBS.Count == 0 || targetTIDBS.Contains(TID);
     }
 
     public enum TargetShinyType

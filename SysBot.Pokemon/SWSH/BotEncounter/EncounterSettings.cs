@@ -17,6 +17,15 @@ namespace SysBot.Pokemon
         [Category(Encounter), Description("When enabled, the bot will continue after finding a suitable match.")]
         public ContinueAfterMatch ContinueAfterMatch { get; set; } = ContinueAfterMatch.StopExit;
 
+        [Category(Encounter), Description("The style to export the global RNG state.")]
+        public DisplaySeedMode DisplaySeedMode { get; set; } = DisplaySeedMode.Bit32;
+
+        [Category(Encounter), Description("Interval in milliseconds for the monitor to check the Main RNG state.")]
+        public int MonitorRefreshRate { get; set; } = 500;
+
+        [Category(Encounter), Description("Maximum total advances before the RNG monitor pauses the game by clicking X. Set to 0 to disable.")]
+        public int MaxTotalAdvances { get; set; } = 0;
+
         [Category(Encounter), Description("When enabled, the screen will be turned off during normal bot loop operation to save power.")]
         public bool ScreenOff { get; set; } = false;
 
