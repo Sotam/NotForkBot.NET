@@ -70,6 +70,9 @@
         /// <summary> Prints out the global RNG state and information on advances passed. </summary>
         EncBotDexFlipBS = 2004,
 
+        /// <summary> RNG's Mt. Coronet legendary encounters. </summary>
+        EncBotMtCoronetBS = 2005,
+
         /// <summary> Similar to idle, but identifies the bot as available for Remote input (Twitch Plays, etc). </summary>
         RemoteControl = 6_000,
 
@@ -78,7 +81,7 @@
 
     public static class PokeRoutineTypeExtensions
     {
-        public static bool IsTradeBot(this PokeRoutineType type) => type is >=PokeRoutineType.FlexTrade and <= PokeRoutineType.Dump;
+        public static bool IsTradeBot(this PokeRoutineType type) => type is >= PokeRoutineType.FlexTrade and <= PokeRoutineType.Dump;
         public static bool IsMonitorTool(this PokeRoutineType type) =>
             type is PokeRoutineType.EncBotCopySeed or PokeRoutineType.EncBotRNGMonitor
             or (>= PokeRoutineType.EncBotZoneIDBS and <= PokeRoutineType.EncBotRNGMonitorBS);

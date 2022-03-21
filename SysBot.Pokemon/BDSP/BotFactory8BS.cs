@@ -17,6 +17,7 @@ namespace SysBot.Pokemon
             PokeRoutineType.EncBotCopySeedBS => new EncounterBotCopySeedBS(cfg, Hub),
             PokeRoutineType.EncBotRNGMonitorBS => new EncounterBotRNGMonitorBS(cfg, Hub),
             PokeRoutineType.EncBotDexFlipBS => new EncounterBotDexFlipBS(cfg, Hub),
+            PokeRoutineType.EncBotMtCoronetBS => new EncounterBotMtCoronetBS(cfg, Hub),
 
             PokeRoutineType.RemoteControl => new RemoteControlBot(cfg),
 
@@ -35,6 +36,7 @@ namespace SysBot.Pokemon
             PokeRoutineType.EncBotCopySeedBS => true,
             PokeRoutineType.EncBotRNGMonitorBS => true,
             PokeRoutineType.EncBotDexFlipBS => true,
+            PokeRoutineType.EncBotMtCoronetBS => true,
 
             PokeRoutineType.RemoteControl => true,
 

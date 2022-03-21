@@ -5,8 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using PKHeX.Core;
 using SysBot.Base;
-using static SysBot.Pokemon.BasePokeDataOffsetsBS;
 using static SysBot.Base.SwitchButton;
+using static SysBot.Pokemon.BasePokeDataOffsetsBS;
 
 namespace SysBot.Pokemon
 {
@@ -282,6 +282,16 @@ namespace SysBot.Pokemon
             return TID7;
         }
 
+        public async Task<(ulong s0, ulong s1, byte[] data)> GetGlobalRNGStateWithData(ulong offset, bool log, CancellationToken token)
+        {
+            var data = await SwitchConnection.ReadBytesAbsoluteAsync(offset, 16, token).ConfigureAwait(false);
+            var s0 = BitConverter.ToUInt64(data, 0);
+            var s1 = BitConverter.ToUInt64(data, 8);
+            if (log)
+                Log($"RNG state: {s0:x16}, {s1:x16}");
+            return (s0, s1, data);
+        }
+
         public async Task<(ulong s0, ulong s1)> GetGlobalRNGState(ulong offset, bool log, CancellationToken token)
         {
             var data = await SwitchConnection.ReadBytesAbsoluteAsync(offset, 16, token).ConfigureAwait(false);
@@ -290,6 +300,17 @@ namespace SysBot.Pokemon
             if (log)
                 Log($"RNG state: {s0:x16}, {s1:x16}");
             return (s0, s1);
+        }
+
+        public async Task SetGlobalRNGState(byte[] data, ulong offset, bool log, CancellationToken token)
+        {
+            await SwitchConnection.WriteBytesAbsoluteAsync(data, offset, token).ConfigureAwait(false);
+
+            //var s0 = BitConverter.ToUInt64(data, 0);
+            //var s1 = BitConverter.ToUInt64(data, 8);
+            //if (log)
+            //    Log($"RNG state: {s0:x16}, {s1:x16}");
+            ////return (s0, s1);
         }
 
         public int GetAdvancesPassed(ulong prevs0, ulong prevs1, ulong news0, ulong news1)

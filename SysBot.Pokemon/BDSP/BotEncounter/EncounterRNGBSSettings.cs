@@ -20,7 +20,7 @@ namespace SysBot.Pokemon
         [Category(EncounterRNGBS), Description("Interval in milliseconds for the monitor to check the Main RNG state.")]
         public int MonitorRefreshRate { get; set; } = 500;
 
-        [Category(EncounterRNGBS), Description("Maximum total advances before the RNG monitor pauses the game by clicking HOME. Set to 0 to disable.")]
+        [Category(EncounterRNGBS), Description("Maximum total advances before the RNG monitor pauses the game by clicking HOME or encounter bot continues. Set to 0 to disable.")]
         public int MaxTotalAdvances { get; set; } = 0;
 
         [Category(EncounterRNGBS), Description("Configures sys-botbase mainLoopSleepTime for DexFlip. Default is 50.")]
