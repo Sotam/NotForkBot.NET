@@ -3,6 +3,8 @@ using PKHeX.Core;
 
 namespace SysBot.Pokemon
 {
+    using BDSP.BotDex;
+
     public sealed class BotFactory8BS : BotFactory<PB8>
     {
         public override PokeRoutineExecutorBase CreateBot(PokeTradeHub<PB8> Hub, PokeBotState cfg) => cfg.NextRoutineType switch
@@ -16,6 +18,8 @@ namespace SysBot.Pokemon
 
             PokeRoutineType.RemoteControl => new RemoteControlBot(cfg),
 
+            PokeRoutineType.BDSPDexBot => new DexBot(Hub, cfg),
+
             _ => throw new ArgumentException(nameof(cfg.NextRoutineType)),
         };
 
@@ -26,6 +30,7 @@ namespace SysBot.Pokemon
                 or PokeRoutineType.Dump
                 or PokeRoutineType.FixOT
                 or PokeRoutineType.TradeCord
+                or PokeRoutineType.BDSPDexBot
                 => true,
 
             PokeRoutineType.RemoteControl => true,

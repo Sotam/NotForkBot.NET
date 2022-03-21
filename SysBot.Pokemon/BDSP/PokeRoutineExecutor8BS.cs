@@ -5,8 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using PKHeX.Core;
 using SysBot.Base;
-using static SysBot.Pokemon.BasePokeDataOffsetsBS;
 using static SysBot.Base.SwitchButton;
+using static SysBot.Pokemon.BasePokeDataOffsetsBS;
 
 namespace SysBot.Pokemon
 {
@@ -37,6 +37,16 @@ namespace SysBot.Pokemon
         {
             var result = await Connection.ReadBytesAsync(offset, original.Length, token).ConfigureAwait(false);
             return !result.SequenceEqual(original);
+        }
+
+        public async Task<ulong> GetPlayerPrefsProvider(CancellationToken token)
+        {
+            const int size = sizeof(ulong);
+
+            var tmp = await SwitchConnection.ReadBytesMainAsync(0x4C90330, sizeof(ulong), token).ConfigureAwait(false);
+
+            var addresses = new ulong[] { 0x18, 0xc0, 0x28, 0xb8, 0 };
+            return addresses.Aggregate(tmp, async (current, addition) => await SwitchConnection.ReadBytesAbsoluteAsync(current + addition, size, token));
         }
 
         public override async Task<PB8> ReadBoxPokemon(int box, int slot, CancellationToken token)

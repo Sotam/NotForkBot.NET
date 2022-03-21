@@ -31,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="BDSP\BotDex\" />
     <Folder Include="deps\" />
   </ItemGroup>
   <ItemGroup>

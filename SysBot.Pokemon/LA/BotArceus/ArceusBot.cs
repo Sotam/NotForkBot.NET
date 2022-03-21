@@ -1,13 +1,11 @@
-﻿using PKHeX.Core;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using PKHeX.Core;
 using static SysBot.Base.SwitchButton;
 using static SysBot.Base.SwitchStick;
-using System.Linq;
-using System.Collections.Generic;
-using SysBot.Base;
-using PKHeX.Core.AutoMod;
 
 namespace SysBot.Pokemon
 {
@@ -1045,11 +1043,62 @@ namespace SysBot.Pokemon
                 var SpawnerOffpoint = new long[] { 0x4268ee0, 0x330, 0x70 + i * 0x440 + 0x20 };
                 var SpawnerOff = SwitchConnection.PointerAll(SpawnerOffpoint, token).Result;
                 var GeneratorSeed = SwitchConnection.ReadBytesAbsoluteAsync(SpawnerOff, 8, token).Result;
-                Log($"Generator Seed: {BitConverter.ToString(GeneratorSeed).Replace("-", "")}");
-                var group_seed = (BitConverter.ToUInt64(GeneratorSeed, 0) - 0x82A2B175229D6A5B) & 0xFFFFFFFFFFFFFFFF;
-                Log($"Group Seed: {string.Format("0x{0:X}", group_seed)}");
-                SpawnerID = i;
-                GenerateNextShiny(SpawnerSpecies, i, group_seed);
+                //SwitchConnection.WriteBytesAbsoluteAsync(GeneratorSeed, SpawnerOff, token).ConfigureAwait(false).GetAwaiter().GetResult();
+                GeneratorSeed = SwitchConnection.ReadBytesAbsoluteAsync(SpawnerOff, 8, token).Result;
+
+                ulong prev = 0;
+
+                for (int j = 0; j < 10_000_000; j++)
+                {
+                    var r = new Random();
+
+                    GeneratorSeed = new[]
+                    {
+                        (byte)r.Next(0,0xFF),
+                        (byte)r.Next(0,0xFF),
+                        (byte)r.Next(0,0xFF),
+                        (byte)r.Next(0,0xFF),
+                        (byte)r.Next(0,0xFF),
+                        (byte)r.Next(0,0xFF),
+                        (byte)r.Next(0,0xFF),
+                        (byte)r.Next(0,0xFF)
+                    };
+
+                    if (BitConverter.ToUInt64(GeneratorSeed, 0) == prev)
+                    {
+                        Console.WriteLine();
+                    }
+
+                    await Task.Delay(1, token);
+
+                    prev = BitConverter.ToUInt64(GeneratorSeed, 0);
+
+                    if (j % 100_000 == 0)
+                        Log($"{j}");
+
+                    //Log($"Generator Seed: {BitConverter.ToString(GeneratorSeed).Replace("-", "")}");
+                    var group_seed = (BitConverter.ToUInt64(GeneratorSeed, 0) - 0x82A2B175229D6A5B) & 0xFFFFFFFFFFFFFFFF;
+                    //Log($"Group Seed: {string.Format("0x{0:X}", group_seed)}");
+                    SpawnerID = i;
+
+                    var k = GenerateNextShiny(SpawnerSpecies, i, group_seed);
+
+                    if (k > 0)
+                    {
+                        Log($"Generator Seed: {BitConverter.ToString(GeneratorSeed).Replace("-", "")}");
+                        Log($"Group Seed: {string.Format("0x{0:X}", group_seed)}");
+
+                        SwitchConnection.WriteBytesAbsoluteAsync(GeneratorSeed, SpawnerOff, token).ConfigureAwait(false).GetAwaiter().GetResult();
+                        break;
+                    }
+                }
+
+                //Log($"Generator Seed: {BitConverter.ToString(GeneratorSeed).Replace("-", "")}");
+                //var group_seed = (BitConverter.ToUInt64(GeneratorSeed, 0) - 0x82A2B175229D6A5B) & 0xFFFFFFFFFFFFFFFF;
+                //Log($"Group Seed: {string.Format("0x{0:X}", group_seed)}");
+                //SpawnerID = i;
+
+                //var k = GenerateNextShiny(SpawnerSpecies, i, group_seed);
             }
         }
 
@@ -1220,8 +1269,8 @@ namespace SysBot.Pokemon
                     }
                 }
                 mainrng = new Xoroshiro128Plus(mainrng.Next());
-                if (i == Settings.AlphaScanConditions.MaxAdvancesToSearch - 1 && !shiny)
-                    Log($"No results within {Settings.AlphaScanConditions.MaxAdvancesToSearch} advances for {SpawnerSpecies} | SpawnerID: {spawnerid}.");
+                //if (i == Settings.AlphaScanConditions.MaxAdvancesToSearch - 1 && !shiny)
+                //    Log($"No results within {Settings.AlphaScanConditions.MaxAdvancesToSearch} advances for {SpawnerSpecies} | SpawnerID: {spawnerid}.");
             }
 
             return newseed;
